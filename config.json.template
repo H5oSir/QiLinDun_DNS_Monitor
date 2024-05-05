@@ -1,0 +1,20 @@
+{
+  "cdn_ips": [
+    "156.238.229.154",
+    "156.238.242.34",
+    "45.85.77.8",
+    "156.238.243.167"
+  ], # 节点IP
+  "url": "http://test-hw.qilindun.com/index.php", # 探测页面的网址
+  "flag": "www.qilindun.com", # 探测页面包含的内容
+  "domain": "666cloud.cn", # 主域名
+  "sud_domain": "*.06e9de7315", # 子域名前缀
+  "secret_id": "AKIDzc3GaxZ5TXYQ5Vsxxxxx", # 腾讯云控制台获取
+  "secret_key": "Rg1To3Op20sX0FZkpmxxxxx", # 腾讯云控制台获取
+  "debug": false, # 开启调试
+  "check_node_name": "监控节点名称",
+  "check_node_ip": "127.0.0.1",
+  "wechat_hook_url": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=7b2adf99-483a-43eb-842d-xxxxxxx", # 企业微信群通知地址
+  "rate_sec": 1, # 请求频率1秒一次
+  "max_time_out_count": 5 # 请求超时最大的尝试次数
+}
