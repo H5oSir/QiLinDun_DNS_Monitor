@@ -172,5 +172,5 @@ def main():
 
 if __name__ == '__main__':
     # monitor(name="监控器1", ip="156.238.229.154")
-    # main_loop()
-    cdn_ip_is_alive(config.get_config_json().url,"45.85.77.8","www.qilindun.com")
+    main_loop()
+    # cdn_ip_is_alive(config.get_config_json().url,"45.85.77.8","www.qilindun.com")
