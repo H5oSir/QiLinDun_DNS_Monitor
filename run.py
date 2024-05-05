@@ -31,7 +31,7 @@ def cdn_ip_is_alive(url, ip, flag) -> tuple:
     time_out_count = 0
     while True:
         try:
-            if time_out_count>=config.max_time_out_count:
+            if time_out_count >= config.max_time_out_count:
                 msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 访问失败，尝试访问节点超时{config.max_time_out_count}次"
                 return False, msg
             # 发送请求
@@ -46,9 +46,17 @@ def cdn_ip_is_alive(url, ip, flag) -> tuple:
                 log.info(msg)
                 return False, msg
         # 捕获time_out 异常
+        except requests.exceptions.ConnectTimeout as e:
+            time_out_count = time_out_count + 1
+            msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 访问失败，尝试访问节点超时第{config.max_time_out_count}次，错误信息：{e}"
+            log.info(msg)
         except requests.exceptions.Timeout as e:
             time_out_count = time_out_count + 1
-            msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 访问失败，尝试访问节点超时第{config.time_out_count}次"
+            msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 访问失败，尝试访问节点超时第{config.max_time_out_count}次，错误信息：{e}"
+            log.info(msg)
+        except requests.exceptions.ProxyError as e:
+            time_out_count = time_out_count + 1
+            msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 访问失败，尝试访问节点超时第{config.max_time_out_count}次，错误信息：{e}"
             log.info(msg)
         except Exception as e:
             msg = f"监控节点名称 {config.check_node_name} ,监控节点IP {config.check_node_ip} , CDN 节点 {ip} 请求异常，错误信息：{e}"
@@ -104,7 +112,7 @@ def monitor(name: str, ip: str, url: str, flag: str, domain: str, subdomain: str
                 pass
             # 计算间隔时间，然后睡眠，保证1秒钟一次监控。
             end_time = time.time()
-            delay_time = config.rate_sec - (end_time - delay_time)
+            delay_time = config.rate_sec - (end_time - start_time)
             if delay_time > 0:
                 time.sleep(delay_time)
         except Exception as err:
@@ -164,4 +172,5 @@ def main():
 
 if __name__ == '__main__':
     # monitor(name="监控器1", ip="156.238.229.154")
-    main_loop()
+    # main_loop()
+    cdn_ip_is_alive(config.get_config_json().url,"45.85.77.8","www.qilindun.com")
