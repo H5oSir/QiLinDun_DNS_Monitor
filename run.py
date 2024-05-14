@@ -37,7 +37,7 @@ def cdn_ip_is_alive(url, ip, flag) -> tuple:
             # 发送请求
             response = requests.get(url, headers=headers, proxies=proxies, timeout=5)
             # 检查响应状态码
-            if response.status_code == 200 and flag in response.content.decode():
+            if response.status_code == 200 and flag in response.content.decode() or response.status_code == 502:
                 msg = f"CDN 节点 {ip} 存活，状态码为: {response.status_code}，响应内容为：{response.content.decode()}"
                 log.info(msg)
                 return True, msg
